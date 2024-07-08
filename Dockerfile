@@ -27,11 +27,15 @@ RUN curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L https://github.
     && rm actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
 
 # Install additional dependencies
-RUN ./bin/installdependencies.sh
+RUN sudo ./bin/installdependencies.sh
 
 # Copy the startup script
-COPY start.sh .
+COPY --chown=github-runner:github-runner start.sh .
+
 RUN chmod +x start.sh
+
+# Switch to the user
+USER github-runner
 
 # Set the entrypoint
 ENTRYPOINT ["./start.sh"]

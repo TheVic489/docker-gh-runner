@@ -5,12 +5,5 @@ This is a Docker image for running GitHub Actions runners on a self-hosted runne
 ## Usage
   
 ```bash
-docker run \
-    --detach \
-    --env ORGANIZATION=<YOUR-GITHUB-ORGANIZATION> \
-    --env ACCESS_TOKEN=<YOUR-GITHUB-ACCESS-TOKEN> \
-    --env REPOSITORY=<YOUR-GITHUB-REPOSITORY> \
-    --env REG_TOKEN=<YOUR-GITHUB-TOKEN> \
-    --name runner \
-    github-runner
+docker run -e ORGANIZATION=<your-org> -e REPOSITORY=<your-repo> -e ACCESS_TOKEN=<your-token> github-runner
 ```
