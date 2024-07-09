@@ -18,7 +18,10 @@ RUN apt-get update && apt-get install -y \
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Create a user for the runner
-RUN useradd -m github-runner
+RUN useradd -m github-runner && \
+    usermod -aG sudo github-runner && \
+    echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 WORKDIR /home/github-runner
 
 # Download and extract the GitHub Actions runner
@@ -33,6 +36,9 @@ RUN sudo ./bin/installdependencies.sh
 COPY --chown=github-runner:github-runner start.sh .
 
 RUN chmod +x start.sh
+
+# Change ownership of the runner directory to the github-runner user
+RUN chown -R github-runner:github-runner /home/github-runner
 
 # Switch to the user
 USER github-runner
